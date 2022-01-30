@@ -94,10 +94,10 @@ int main(void)
         texture.Bind();
         shader.SetUniform4i("u_Texture", 0);
 
-        /*va.Unbind();
+        va.Unbind();
         vb.Unbind();
         ib.Unbind();
-        shader.Unbind();*/
+        shader.Unbind();
 
         Renderer renderer;
 
