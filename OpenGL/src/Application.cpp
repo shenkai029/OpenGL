@@ -47,15 +47,15 @@ int main(void)
     // use another scope to make sure vb/ib object can be delete from stack before calling glfwTerminate()
     {
         float positions[] = {
-         -50.0f,  -50.0f, 0.0f, 0.0f,// 0
-          50.0f,  -50.0f, 1.0f, 0.0f,// 1
-          50.0f,   50.0f, 1.0f, 1.0f,// 2
-         -50.0f,   50.0f, 0.0f, 1.0f,// 3
+          -50.0f,  -50.0f, 0.0f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, // 0
+           50.0f,  -50.0f, 1.0f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, // 1
+           50.0f,   50.0f, 1.0f, 1.0f, 0.18f, 0.6f, 0.96f, 1.0f, // 2
+          -50.0f,   50.0f, 0.0f, 1.0f, 0.18f, 0.6f, 0.96f, 1.0f, // 3
 
-          150.0f,  -50.0f, 0.0f, 0.0f,// 0
-          250.0f,  -50.0f, 1.0f, 0.0f,// 1
-          250.0f,   50.0f, 1.0f, 1.0f,// 2
-          150.0f,   50.0f, 0.0f, 1.0f// 3
+          150.0f,  -50.0f, 0.0f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f, // 0
+          250.0f,  -50.0f, 1.0f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f, // 1
+          250.0f,   50.0f, 1.0f, 1.0f, 1.0f, 0.93f, 0.24f, 1.0f, // 2
+          150.0f,   50.0f, 0.0f, 1.0f, 1.0f, 0.93f, 0.24f, 1.0f  // 3
         };
 
         unsigned int indices[] = {
@@ -75,8 +75,8 @@ int main(void)
         VertexBuffer vb(positions, 8 * 4 * sizeof(float));
 
         VertexBufferLayout layout;
-        layout.Push<float>(2);
-        layout.Push<float>(2);
+        layout.Push<float>(3);
+        layout.Push<float>(4);
         va.AddBuffer(vb, layout);
 
         // draw rectangle is actually draw 2 triangle using 2 * 3 vertices
@@ -86,13 +86,13 @@ int main(void)
         glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f); // vertices projection position 
         glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0)); // camera view position
 
-        Shader shader("res/shaders/Basic.shader");
+        Shader shader("res/shaders/2ObjColor.shader");
         shader.Bind();
-        shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
+        //shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
 
-        Texture texture("res/texture/PennState.PNG");
+        /*Texture texture("res/texture/PennState.PNG");
         texture.Bind();
-        shader.SetUniform4i("u_Texture", 0);
+        shader.SetUniform4i("u_Texture", 0);*/
 
         va.Unbind();
         vb.Unbind();
@@ -135,7 +135,7 @@ int main(void)
             //    renderer.Draw(va, ib, shader);
             //}
 
-            shader.SetUniform4f("u_Color", r_ch, 0.3f, 0.8f, 1.0f);
+            //shader.SetUniform4f("u_Color", r_ch, 0.3f, 0.8f, 1.0f);
 
 
             if (r_ch > 1.0f) increment = -0.05f;
