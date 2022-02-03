@@ -47,15 +47,15 @@ int main(void)
     // use another scope to make sure vb/ib object can be delete from stack before calling glfwTerminate()
     {
         float positions[] = {
-          -50.0f, -50.0f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, // 0
-           50.0f, -50.0f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, // 1
-           50.0f,  50.0f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, // 2
-          -50.0f,  50.0f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, // 3
+          -50.0f, -50.0f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, 0.0f, 0.0f, 0.0f, // 0
+           50.0f, -50.0f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, 1.0f, 0.0f, 0.0f, // 1
+           50.0f,  50.0f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, 1.0f, 1.0f, 0.0f, // 2
+          -50.0f,  50.0f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f, 0.0f, 1.0f, 0.0f, // 3
 
-          150.0f, 150.0f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f, // 0
-          250.0f, 150.0f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f, // 1
-          250.0f, 250.0f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f, // 2
-          150.0f, 250.0f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f  // 3
+          150.0f, 150.0f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f, 0.0f, 0.0f, 1.0f, // 0
+          250.0f, 150.0f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f, 1.0f, 0.0f, 1.0f, // 1
+          250.0f, 250.0f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f, 1.0f, 1.0f, 1.0f, // 2
+          150.0f, 250.0f, 0.0f, 1.0f, 0.93f, 0.24f, 1.0f, 0.0f, 1.0f, 1.0f // 3
         };
 
         unsigned int indices[] = {
@@ -72,11 +72,13 @@ int main(void)
         // generate and bind array buffer, and load postion data to the buffer
         // enable VertexAttribArray to specify layout of positon data
         VertexArray va;
-        VertexBuffer vb(positions, 8 * 7 * sizeof(float));
+        VertexBuffer vb(positions, 8 * 10 * sizeof(float));
 
         VertexBufferLayout layout;
         layout.Push<float>(3);
         layout.Push<float>(4);
+        layout.Push<float>(2);
+        layout.Push<float>(1);
         va.AddBuffer(vb, layout);
 
         // draw rectangle is actually draw 2 triangle using 2 * 3 vertices
@@ -90,9 +92,12 @@ int main(void)
         shader.Bind();
         shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
 
-        Texture texture("res/texture/PennState.PNG");
-        texture.Bind();
-        shader.SetUniform4i("u_Texture", 0);
+        Texture texture_0("res/texture/PennState.PNG", 0);
+        Texture texture_1("res/texture/Jiaotong.PNG", 1);
+        texture_0.Bind(0);
+        texture_1.Bind(1);
+        int samplers[2] = { 0, 1 };
+        shader.SetUniform1iv2("u_Textures", samplers);
 
         va.Unbind();
         vb.Unbind();

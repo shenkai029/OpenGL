@@ -1367,5 +1367,8 @@
     <Image Include="res\texture\PennState.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\texture\Jiaotong.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
